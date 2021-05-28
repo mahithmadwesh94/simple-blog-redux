@@ -1,0 +1,11 @@
+.nav-item span{
+    cursor: pointer;
+}
+
+.nav-link{
+    color: black !important;
+}
+
+.active{
+   border-bottom: 1px solid purple;
+}

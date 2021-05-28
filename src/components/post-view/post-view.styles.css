@@ -1,0 +1,23 @@
+.user-info{
+    /* display: flex;
+    text-align: center; */
+    /* left: 23%; */
+ 
+    background-color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.user-info:hover{
+    box-shadow: none;
+    color: black;
+}
+
+.post-body{
+    background-color: white;
+    text-transform: capitalize;
+}
+
+.comments{
+    background-color: whitesmoke;
+}
