@@ -12,7 +12,7 @@ const HomeIntro = () => {
         <div className="container-fluid">
 
             <div className="row">
-                <div className="col-6 col-sm-6 col-md-6 col-lg-6 nonImgDiv">
+                <div className="col-12 col-sm-12 col-md-6 col-lg-6 nonImgDiv">
                     <div className="container">
                         <div className="row">
                             <div className="col-12 col-sm-12 col-md-12 col-lg-12">
