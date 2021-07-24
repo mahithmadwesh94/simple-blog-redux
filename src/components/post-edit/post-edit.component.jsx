@@ -1,7 +1,9 @@
 import { ErrorMessage, Field, Formik } from 'formik';
 import React, { useState, useEffect } from 'react';
 import './post-edit.styles.css';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+import { store, UPDATEPOST, CREATEPOST } from '../../redux/store';
+
 
 const API_URL = 'https://jsonplaceholder.typicode.com/'
 
@@ -36,9 +38,8 @@ const PostEdit = (props) => {
     useEffect(() => {
 
         if (!props.location.pathname.includes('createPost')) {
-            if (localStorage.getItem('posts')) {
-                let storagePosts = localStorage.getItem('posts');
-                let allPosts = JSON.parse(storagePosts)
+            if (store.getState().allPosts.length) {
+                let allPosts = store.getState().allPosts
 
                 let posts = allPosts.filter(item => item.id == props.match.params.postid)
                 setpost(posts[0])
@@ -49,10 +50,9 @@ const PostEdit = (props) => {
                 this.props.history.replace('/posts')
             }
         } else {
-            if (localStorage.getItem('posts')) {
-                let storagePosts = localStorage.getItem('posts');
-                let allPosts = JSON.parse(storagePosts);
-                setLength(allPosts.length)
+            if (store.getState().allPosts.length) {
+
+                setLength(store.getState().allPosts.length)
 
             }
             fetch(`${API_URL}users/`)
@@ -94,26 +94,29 @@ const PostEdit = (props) => {
     }
 
     const UpdateLocalStorage = (post, action) => {
-        let storagePosts = localStorage.getItem('posts');
-        let allPosts = JSON.parse(storagePosts)
+        // let storagePosts = localStorage.getItem('posts');
+        // let allPosts = JSON.parse(storagePosts)
 
         if (action === 'update') {
-            for (let i = 0; i < allPosts.length; i++) {
-                if (allPosts[i].id === post.id) {
-                    // delete allPosts[i];
-                    // allPosts.splice(0, 0, post)
-                    allPosts[i] = post;
-                    localStorage.clear();
-                    localStorage.setItem('posts', JSON.stringify(allPosts));
-                    history.replace('/posts')
-                }
-            }
+            // for (let i = 0; i < allPosts.length; i++) {
+            //     if (allPosts[i].id === post.id) {
+            //         // delete allPosts[i];
+            //         // allPosts.splice(0, 0, post)
+            //         allPosts[i] = post;
+            //         localStorage.clear();
+            //         localStorage.setItem('posts', JSON.stringify(allPosts));
+            //         
+            //     }
+            // }
+            store.dispatch({ type: UPDATEPOST, post: post })
+            history.replace('/posts')
         }
 
         if (action === 'insert') {
             post.id = postLength + 1;
-            allPosts.push(post);
-            localStorage.setItem('posts', JSON.stringify(allPosts));
+            // allPosts.push(post);
+            // localStorage.setItem('posts', JSON.stringify(allPosts));
+            store.dispatch({ type: CREATEPOST, post: post });
             history.replace('/posts')
 
         }

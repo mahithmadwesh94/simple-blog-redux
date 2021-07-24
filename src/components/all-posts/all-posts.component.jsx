@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { RiDeleteBin6Fill as Delete } from 'react-icons/ri';
 import { AiFillEye as ViewIcon } from 'react-icons/ai';
 import { Modal, Button } from 'react-bootstrap';
+import { store, DELETEPOST } from '../../redux/store';
+
 
 const Example = ({ showModal, showHandler, cancelHandler, saveHandler }) => {
 
@@ -19,10 +21,10 @@ const Example = ({ showModal, showHandler, cancelHandler, saveHandler }) => {
                 <Modal.Footer>
                     <Button variant="secondary" onClick={cancelHandler}>
                         Close
-          </Button>
+                    </Button>
                     <Button variant="danger" onClick={saveHandler}>
                         Delete Post
-          </Button>
+                    </Button>
                 </Modal.Footer>
             </Modal>
         </div>
@@ -39,21 +41,22 @@ const AllPosts = ({ posts }) => {
         setPostId(parseInt(event.currentTarget.id))
     }
 
-    const saveHandler = () => {
+    const saveHandler = (event) => {
+        event.preventDefault();
+        // let storedPosts = localStorage.getItem('posts');
+        // let allPosts = JSON.parse(storedPosts);
 
-        let storedPosts = localStorage.getItem('posts');
-        let allPosts = JSON.parse(storedPosts);
+        // for (let i = 0; i < allPosts.length; i++) {
 
-        for (let i = 0; i < allPosts.length; i++) {
-
-            if (allPosts[i].id === postId) {
-                allPosts.splice(i, 1)
-            }
-        }
-        localStorage.clear()
-        localStorage.setItem('posts', JSON.stringify(allPosts));
+        //     if (allPosts[i].id === postId) {
+        //         allPosts.splice(i, 1)
+        //     }
+        // }
+        // localStorage.clear()
+        // localStorage.setItem('posts', JSON.stringify(allPosts));
+        store.dispatch({ type: DELETEPOST, postId: postId });
         handleClose();
-        history.go(0)
+        // history.go(0)
 
 
     }
@@ -86,7 +89,7 @@ const AllPosts = ({ posts }) => {
 
                 </tbody>
             </table>
-        </div >
+        </div>
     )
 }
 

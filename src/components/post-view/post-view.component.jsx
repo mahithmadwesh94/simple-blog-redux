@@ -3,6 +3,8 @@ import './post-view.styles.css';
 import { ReactComponent as User } from '../../assets/undraw_female_avatar_w3jk.svg';
 import { AiFillEdit as EditIcon } from 'react-icons/ai';
 import { withRouter } from 'react-router-dom';
+import { store } from '../../redux/store';
+
 
 
 const API_URL = 'https://jsonplaceholder.typicode.com/';
@@ -34,12 +36,12 @@ class PostView extends React.Component {
 
 
             }).catch(err => console.log(err)); */
-        if (localStorage.getItem('posts')) {
-            let storagePosts = localStorage.getItem('posts');
-            let allPosts = JSON.parse(storagePosts)
+
+        if (store.getState().allPosts.length) {
+            let allPosts = store.getState().allPosts
 
             let posts = allPosts.filter(item => item.id == (this.props.match.params.postid))
-            console.log(posts[0].userId)
+
             this.setState({ post: posts[0] }, () => {
                 fetch(`${API_URL}users/${posts[0].userId}`)
                     .then(response => response.json()).then(result => this.setState({ user: result })).catch((err) => console.log(err));
@@ -50,9 +52,10 @@ class PostView extends React.Component {
 
             })
         } else {
-            console.log('props', this.props)
+
             this.props.history.replace('/posts')
         }
+
 
 
     }
@@ -104,7 +107,7 @@ class PostView extends React.Component {
                                                 <h5 className="mb-0 text-left">
                                                     <span aria-expanded="true" aria-controls="collapseOne">
                                                         Comments
-                                                </span>
+                                                    </span>
                                                 </h5>
                                             </div>
                                             <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
